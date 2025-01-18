@@ -1,14 +1,12 @@
 ---
-import Query from "zero-astro";
+import { Query } from "zero-astro";
 import TodoItem from "./TodoItem.astro";
 
-const {zeroClient } = Astro.locals;
-
+const { zeroClient } = Astro.locals;
 let todos = [];
 
 try {
-  if (zeroClient) {
-    todos = await Query(zeroClient.entityQueries.todos.where("completed", "=", true);
+  if (zeroClient) todos = new Query(zeroClient.query.todo);
 } catch (error) {
   console.error("Failed to fetch todos:", error);
 }
