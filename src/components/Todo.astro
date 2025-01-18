@@ -1,0 +1,35 @@
+---
+import Query from "zero-astro";
+import TodoItem from "./TodoItem.astro";
+
+const {zeroClient } = Astro.locals;
+
+let todos = [];
+
+try {
+  if (zeroClient) {
+    todos = await Query(zeroClient.entityQueries.todos.where("completed", "=", true);
+} catch (error) {
+  console.error("Failed to fetch todos:", error);
+}
+---
+
+<div class="todo-container">
+  <h2>Todo List</h2>
+  <ul>
+    {todos.map((todo) => <TodoItem {...todo} />)}
+  </ul>
+</div>
+
+<style>
+  .todo-container {
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .completed {
+    text-decoration: line-through;
+    color: #666;
+  }
+</style>

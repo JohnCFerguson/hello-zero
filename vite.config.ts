@@ -18,7 +18,7 @@ export default defineConfig({
     },
   },
   plugins: [
-    react(),
+    // react(),
     {
       name: "api-server",
       configureServer(server) {

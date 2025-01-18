@@ -4,36 +4,48 @@ CREATE DATABASE zstart_cdb;
 
 \c zstart;
 
-CREATE TABLE "user" (
-  "id" VARCHAR PRIMARY KEY,
-  "name" VARCHAR NOT NULL,
-  "partner" BOOLEAN NOT NULL
+CREATE TABLE todo (
+    id VARCHAR PRIMARY KEY,
+    title VARCHAR NOT NULL,
+    completed BOOLEAN NOT NULL
 );
 
-CREATE TABLE "medium" (
-  "id" VARCHAR PRIMARY KEY,
-  "name" VARCHAR NOT NULL
-);
+-- Optional: Add sample data
+INSERT INTO todo (id, title, completed) VALUES 
+    ('1', 'Setup Zero with Astro', true),
+    ('2', 'Create Todo Schema', true),
+    ('3', 'Test Database Connection', false);
 
-CREATE TABLE "message" (
-  "id" VARCHAR PRIMARY KEY,
-  "senderID" VARCHAR REFERENCES "user"(id),
-  "mediumID" VARCHAR REFERENCES "medium"(id),
-  "body" VARCHAR NOT NULL,
-  "timestamp" TIMESTAMP not null
-);
+-- CREATE TABLE "user" (
+--   "id" VARCHAR PRIMARY KEY,
+--   "name" VARCHAR NOT NULL,
+--   "partner" BOOLEAN NOT NULL
+-- );
 
-INSERT INTO "user" (id, name, partner) VALUES ('ycD76wW4R2', 'Aaron', true);
-INSERT INTO "user" (id, name, partner) VALUES ('IoQSaxeVO5', 'Matt', true);
-INSERT INTO "user" (id, name, partner) VALUES ('WndZWmGkO4', 'Cesar', true);
-INSERT INTO "user" (id, name, partner) VALUES ('ENzoNm7g4E', 'Erik', true);
-INSERT INTO "user" (id, name, partner) VALUES ('dLKecN3ntd', 'Greg', true);
-INSERT INTO "user" (id, name, partner) VALUES ('enVvyDlBul', 'Darick', true);
-INSERT INTO "user" (id, name, partner) VALUES ('9ogaDuDNFx', 'Alex', true);
-INSERT INTO "user" (id, name, partner) VALUES ('6z7dkeVLNm', 'Dax', false);
-INSERT INTO "user" (id, name, partner) VALUES ('7VoEoJWEwn', 'Nate', false);
+-- CREATE TABLE "medium" (
+--   "id" VARCHAR PRIMARY KEY,
+--   "name" VARCHAR NOT NULL
+-- );
 
-INSERT INTO "medium" (id, name) VALUES ('G14bSFuNDq', 'Discord');
-INSERT INTO "medium" (id, name) VALUES ('b7rqt_8w_H', 'Twitter DM');
-INSERT INTO "medium" (id, name) VALUES ('0HzSMcee_H', 'Tweet reply to unrelated thread');
-INSERT INTO "medium" (id, name) VALUES ('ttx7NCmyac', 'SMS');
+-- CREATE TABLE "message" (
+--   "id" VARCHAR PRIMARY KEY,
+--   "senderID" VARCHAR REFERENCES "user"(id),
+--   "mediumID" VARCHAR REFERENCES "medium"(id),
+--   "body" VARCHAR NOT NULL,
+--   "timestamp" TIMESTAMP not null
+-- );
+
+-- INSERT INTO "user" (id, name, partner) VALUES ('ycD76wW4R2', 'Aaron', true);
+-- INSERT INTO "user" (id, name, partner) VALUES ('IoQSaxeVO5', 'Matt', true);
+-- INSERT INTO "user" (id, name, partner) VALUES ('WndZWmGkO4', 'Cesar', true);
+-- INSERT INTO "user" (id, name, partner) VALUES ('ENzoNm7g4E', 'Erik', true);
+-- INSERT INTO "user" (id, name, partner) VALUES ('dLKecN3ntd', 'Greg', true);
+-- INSERT INTO "user" (id, name, partner) VALUES ('enVvyDlBul', 'Darick', true);
+-- INSERT INTO "user" (id, name, partner) VALUES ('9ogaDuDNFx', 'Alex', true);
+-- INSERT INTO "user" (id, name, partner) VALUES ('6z7dkeVLNm', 'Dax', false);
+-- INSERT INTO "user" (id, name, partner) VALUES ('7VoEoJWEwn', 'Nate', false);
+
+-- INSERT INTO "medium" (id, name) VALUES ('G14bSFuNDq', 'Discord');
+-- INSERT INTO "medium" (id, name) VALUES ('b7rqt_8w_H', 'Twitter DM');
+-- INSERT INTO "medium" (id, name) VALUES ('0HzSMcee_H', 'Tweet reply to unrelated thread');
+-- INSERT INTO "medium" (id, name) VALUES ('ttx7NCmyac', 'SMS');
