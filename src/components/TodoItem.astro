@@ -1,0 +1,13 @@
+---
+// Todo Types
+import type { Todo } from "../schema";
+
+interface Props extends Todo {
+}
+
+const { id, title, completed } = Astro.props as Props
+---
+<li class:list-item>
+  <input type="checkbox" id={id} checked={completed}/>
+  <label for={id} class:list={[{completed: completed}]}>{title}</label>
+</li>
