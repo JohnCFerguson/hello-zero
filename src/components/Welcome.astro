@@ -4,6 +4,13 @@ import background from "../assets/background.svg";
 import Todo from "./Todo.astro";
 ---
 
+<script>
+  import { initZero } from "../scripts/initZero";
+  import { defaultConfig } from "../scripts/config";
+
+  initZero(defaultConfig);
+</script>
+
 <div id="container">
   <img id="background" src={background.src} alt="" fetchpriority="high" />
   <main>

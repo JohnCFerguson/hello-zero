@@ -1,23 +1,29 @@
 // @ts-check
 import { defineConfig } from "astro/config";
-import zero from "zero-astro";
-import { schema } from "./src/schema.ts";
-import { getRequestListener } from "@hono/node-server";
-import { Hono } from "hono";
+import zeroAstro from "zero-astro";
+import { schema } from "./src/schema";
+import dotenv from "dotenv";
 
-const app = new Hono();
+// Load environment variables
+dotenv.config();
+
+const zeroConfig = {
+  publicServer: process.env.PUBLIC_SERVER,
+  userID: "default-user",
+  schema,
+  kvStore: "idb",
+};
+
+if (!zeroConfig.publicServer) {
+  throw new Error("PUBLIC_SERVER environment variable is required");
+}
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
-    zero({
-      publicServer: process.env.PUBLIC_SERVER,
-      upstreamDb: process.env.ZERO_UPSTREAM_DB,
-      cvrDb: process.env.ZERO_CVR_DB,
-      changeDb: process.env.ZERO_CHANGE_DB,
-      authSecret: process.env.ZERO_AUTH_SECRET,
-      replicaFile: process.env.ZERO_REPLICA_FILE,
-      schema,
+    zeroAstro({
+      projectId: "zero-project-id",
+      environment: "development",
     }),
   ],
   output: "server",
@@ -28,20 +34,12 @@ export default defineConfig({
     ssr: {
       noExternal: ["@rocicorp/zero"],
     },
-    plugins: [
-      {
-        name: "api-server",
-        configureServer(server) {
-          server.middlewares.use((req, res, next) => {
-            if (!req.url?.startsWith("/api")) {
-              return next();
-            }
-            getRequestListener(async (request) => {
-              return await app.fetch(request, {});
-            })(req, res);
-          });
-        },
-      },
-    ],
+  },
+  server: {
+    host: true,
+    port: 4321,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
   },
 });

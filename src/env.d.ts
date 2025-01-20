@@ -1,11 +1,10 @@
 /// <reference types="astro/client" />
-import type { Zero } from "@rocicorp/zero";
+import type { ZeroClient } from "zero-astro";
 import type { Schema } from "./schema";
 
 declare global {
-  namespace App {
-    interface Locals {
-      zeroClient: Zero<Schema>;
-    }
+  interface Window {
+    __ZERO_CONFIG__: ZeroConfig<Schema>;
+    __ZERO_CLIENT__: ZeroClient<Schema>;
   }
 }

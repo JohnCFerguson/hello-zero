@@ -1,37 +1,32 @@
 ---
-import type { Todo } from "../schema";
-import TodoItem from "./TodoItem.astro";
 
-const { zeroClient } = Astro.locals;
-
-let todos = [];
-
-try {
-  if (zeroClient) {
-    //await fetch(zeroClient.entityQueries.todos)
-    todos = await zeroClient.entityQueries.todos;
-  }
-} catch (error) {
-  console.error("Failed to fetch todos:", error);
-}
 ---
 
-<div class="todo-container">
-  <h2>Todo List</h2>
-  <ul>
-    {todos.map((todo: Todo) => <TodoItem {...todo} />)}
-  </ul>
+<div id="todo-list">
+  <h2>Todos</h2>
+  <ul></ul>
+  <input type="text" id="new-todo" placeholder="Add a todo" />
+  <button id="add-todo">Add</button>
 </div>
+
+<script>
+  import { initTodoList } from "../scripts/TodoClient";
+
+  initTodoList();
+</script>
 
 <style>
   .todo-container {
     padding: 1rem;
     background: white;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   .completed {
     text-decoration: line-through;
     color: #666;
+  }
+  #todo-list {
+    margin: 1rem;
+    padding: 1rem;
   }
 </style>
