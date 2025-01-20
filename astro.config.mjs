@@ -9,7 +9,7 @@ dotenv.config();
 
 const zeroConfig = {
   publicServer: process.env.PUBLIC_SERVER,
-  userID: "default-user",
+  userID: crypto.randomUUID(),
   schema,
   kvStore: "idb",
 };

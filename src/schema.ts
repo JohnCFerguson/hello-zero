@@ -24,27 +24,27 @@ const todoSchema = createTableSchema({
   relationships: {},
 });
 
-const userSchema = createTableSchema({
-  tableName: "user",
-  columns: {
-    id: { type: "number" },
-    name: { type: "string" },
-    email: { type: "string" },
-  },
-  primaryKey: ["id"],
-});
+// const userSchema = createTableSchema({
+//   tableName: "user",
+//   columns: {
+//     id: { type: "number" },
+//     name: { type: "string" },
+//     email: { type: "string" },
+//   },
+//   primaryKey: ["id"],
+// });
 
 export const schema = createSchema({
   version: 1,
   tables: {
     todo: todoSchema,
-    user: userSchema,
+    // user: userSchema,
   },
 });
 
 export type Schema = typeof schema;
 export type Todo = Row<typeof todoSchema>;
-export type User = Row<typeof userSchema>;
+// export type User = Row<typeof userSchema>;
 
 // The contents of your decoded JWT.
 type AuthData = {
@@ -63,15 +63,15 @@ export const permissions = definePermissions<AuthData, Schema>(schema, () => {
         delete: ANYONE_CAN,
       },
     },
-    user: {
-      row: {
-        // anyone can insert
-        insert: NOBODY_CAN,
-        // only sender can edit their own messages
-        update: NOBODY_CAN,
-        // must be logged in to delete
-        delete: NOBODY_CAN,
-      },
-    },
+    // user: {
+    //   row: {
+    //     // anyone can insert
+    //     insert: NOBODY_CAN,
+    //     // only sender can edit their own messages
+    //     update: NOBODY_CAN,
+    //     // must be logged in to delete
+    //     delete: NOBODY_CAN,
+    //   },
+    // },
   };
 });
