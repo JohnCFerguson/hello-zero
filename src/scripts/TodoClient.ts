@@ -1,5 +1,4 @@
-import type { Zero } from "@rocicorp/zero";
-import type { Schema } from "../schema";
+import { QueryView } from "zero-astro";
 
 interface Todo {
   id: string;
@@ -7,18 +6,11 @@ interface Todo {
   completed: boolean;
 }
 
-declare global {
-  interface Window {
-    __ZERO_CLIENT__: Zero<Schema>;
-  }
-}
-
 export function initTodoList() {
   const zero = window.__ZERO_CLIENT__;
   const todoList = document.querySelector("#todo-list ul");
   const input = document.querySelector("#new-todo") as HTMLInputElement;
   const button = document.querySelector("#add-todo");
-  const container = document.querySelector("#todo-list");
 
   function createTodoElement(todo: Todo): string {
     return `
@@ -33,27 +25,6 @@ export function initTodoList() {
     if (!todoList) return;
     todoList.innerHTML = todos.map(createTodoElement).join("");
   }
-
-  // Create observer for Zero client
-  // const checkForZero = setInterval(async () => {
-  //   const zero = window.__ZERO_CLIENT__;
-  //   if (zero) {
-  //     clearInterval(checkForZero);
-  //     console.log("Zero client initialized:", zero);
-
-  //     // Poll for changes
-  //     async function pollForChanges() {
-  //       const todos = zero.query.todo.materialize().data;
-  //       renderTodos(todos);
-  //       setTimeout(pollForChanges, 1000);
-  //     }
-
-  //     // Initial render
-  //     const initialTodos = zero.query.todo.materialize().data;
-  //     await renderTodos(initialTodos);
-  //     pollForChanges();
-  //   }
-  // }, 100);
 
   // Add handlers for todo interactions
   todoList?.addEventListener("change", async (e) => {
@@ -80,28 +51,13 @@ export function initTodoList() {
     input.value = "";
   });
 
-  // async function doListLoad() {
-  //   const zero = window.__ZERO_CLIENT__;
-  //   if (!zero) return;
-  //   const initialTodos = zero.query.todo.materialize().data;
-  //   await renderTodos(initialTodos);
-  //   console.log(initialTodos);
-  //   zero.subscribe("todo", async (todos: readonly Todo[]) => {
-  //     // console.log("todo changed", todos);
-  //     await renderTodos(todos);
-  //   });
-  // }
-  // doListLoad();
-  async function doListLoad() {
-    if (!zero) return;
-    const initialTodos = zero.query.todo.materialize().data;
-    await renderTodos(initialTodos);
-    console.log(initialTodos);
-  }
+  const queryView = new QueryView(zero?.query.todos);
 
-  zero.subscribe("todo", async (todos: readonly Todo[]) => {
-    console.log("todo changed", todos);
-    await renderTodos(todos);
-    zero.unsubscribe();
-  });
+  const unsubscribe = queryView.addEventListener((data) => {
+    console.log("Todo data updated: ", data)
+  })
+
+  await zero?.mutate.todo.insert({
+    
+  })
 }
