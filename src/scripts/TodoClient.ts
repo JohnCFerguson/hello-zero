@@ -24,9 +24,10 @@ export async function initTodoList() {
 
   // Set up subscription using addListener
   const unsubscribe = queryView.addListener(
-    async (data: Todo[], resultType: string) => {
+    async (data: readonly { [x: string]: any }[], resultType: string) => {
       console.log({ resultType, data });
       if (resultType === "complete" && Array.isArray(data)) {
+        // Type assertion to Todo[] after confirming it's an array
         await renderTodos(data as Todo[]);
       }
     }
